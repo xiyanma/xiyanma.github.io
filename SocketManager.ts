@@ -1,35 +1,13 @@
 import { v4 as uuid } from 'uuid';
-import aegis from '@/utils/aegis';
-
-/**
- *
- * @export 解析json
- * @param {string} str
- * @return {*}
- */
-function parseJson(str: string) {
-  if (typeof str === 'object') {
-    return str;
-  }
-
-  try {
-    const obj = JSON.parse(str);
-
-    return obj;
-  } catch (e) {
-    console.log(e);
-    // aegis.report(new Error(`pageJson解析错误：${e} 解析的json：${str}`));
-    return str;
-  }
-}
+import { parseJson } from './util';
 
 class SocketManager {
   socket;
   responseMap: {
     [key: string]: {
-      resolve: (value: unknown) => void,
-      reject: (value: unknown) => void,
-      data?: any
+      resolve: (value: unknown) => void;
+      reject: (value: unknown) => void;
+      data?: any;
     };
   } = {};
 
@@ -51,33 +29,20 @@ class SocketManager {
       });
     });
     return req;
-  };
+  }
 
   // 监听结果返回
-  listening(data: { port: any; }) {
+  listening(data: { port: any }) {
     const { port } = data;
     /* 通用：对返回结果的处理*/
     this.socket.on('apiSuccess', (event: any) => {
       try {
-        // 上报日志
-        aegis.report({
-          reportName: '请求成功',
-          message: event,
-          href: window.location.href,
-          port,
-        });
-
+        // 请求成功
         const { reqId, data } = event;
         const { resolve } = this.responseMap[reqId];
         return resolve(data ? parseJson(data) : '');
       } catch (e) {
-        // 上报日志
-        aegis.report({
-          reportName: '请求成功-但返回结果失败',
-          message: event,
-          href: window.location.href,
-          port,
-        });
+        // 请求成功-但返回结果失败
         const { reqId, data } = event;
         const { reject } = this.responseMap[reqId];
         return reject(data ? parseJson(data) : '');
@@ -87,14 +52,7 @@ class SocketManager {
     this.socket.on('apiFail', (error: any) => {
       this.socket.disconnect();
       const reqBody = this.responseMap[error?.reqId]?.data;
-      // 上报日志
-      aegis.report({
-        reportName: '请求失败',
-        error,
-        href: window.location.href,
-        port,
-        reqBody,
-      });
+      //请求失败
       const { reqId } = error;
       const { reject } = this.responseMap[reqId];
       try {
@@ -113,6 +71,6 @@ class SocketManager {
     });
     this.responseMap = {};
   }
-};
+}
 
 export default SocketManager;
