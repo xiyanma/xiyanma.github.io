@@ -1,13 +1,11 @@
 # socket-manager
-
-Socket 请求响应处理模块。
+Socket请求响应处理模块。
 
 构造函数 SocketManager 模仿浏览器的 XMLHttpRequest 对象，内部集成发送请求、监听事件(success，error，timeout)、断开连接、中止响应等方法。管理实例内部消息列表，实现请求消息和响应消息一一对应，以及异常处理，响应结果处理等功能。解决了 WebSocket 并发消息时响应结果难以追踪的问题。
 优势：封装独立的 Socket 管理实例。可以在 Socket 通信业务代码中方便地使用。
 
-使用方法：
-
 ## Getting Started
+## 使用方法：
 
 Install dependencies,
 
@@ -27,5 +25,106 @@ Build site app,
 $ npm run build
 ```
 
-socket调试工具：
+## socket服务调试工具：
+
 https://amritb.github.io/socketio-client-tool/#eyJsaXN0ZW4iOlsib2siLCJzb2NrZXRpby1jbGllbnQiLCJtZXNzYWdlIiwiYXBpU3VjY2VzcyIsImFwaUZhaWwiXSwiZW1pdCI6WyJhcGkiLCJhcGkiLCJzb2NrZXRpby1jbGllbnQiLCJzb2NrZXRpby1jbGllbnQtYWNrIl0sImNvbmZpZyI6IntcInBhdGhcIjogXCIvc29ja2V0LmlvXCIsIFwiZm9yY2VOZXdcIjogdHJ1ZSwgXCJyZWNvbm5lY3Rpb25BdHRlbXB0c1wiOiAzLCBcInRpbWVvdXRcIjogMjAwMH0ifQ==
+
+## 使用实例：
+
+建立连接
+
+```js
+SocketConnect.init()
+    .then((_socket) => {
+      this.socket = _socket
+
+      this.setState({
+        isWSS: !!_socket.isWSS,
+        // connectState: ACTION_STATE.SUCCESS,
+      }, () => {
+        this.init();
+      })
+    })
+    .catch((e) => {
+      this.setState({
+        connectState: ACTION_STATE.FAIL,
+      })
+    });
+```
+
+ 挂载实例，管理Socket消息
+
+```ts
+import SocketManager from './SocketManager';
+let mySocket: SocketManager;
+  tmpSocket = io(`http://localhost:${port}`, {
+    path: '/socket.io',
+    transports: ['websocket'], // 强制配置websocket，避免默认使用轮询
+    forceNew: true,
+    reconnectionAttempts: 3,
+    timeout: 2000,
+  });
+
+    mySocket = new SocketManager(tmpSocket);
+
+    mySocket.listening({
+      port,
+    });
+```
+
+发送消息
+
+```ts
+mySocket.send(data).then(()=>{
+
+})
+.catch(()=>{
+
+})
+.finally()
+```
+
+### 协议展示：以打印服务为例
+
+查询打印软件版本
+
+```ts
+export const init = () => {
+  const data = {
+    type: 'init',
+    mod: 'system',
+    args: {
+      mid: merchantId,
+    },
+  };
+  return mySocket.send(data);
+};
+```
+
+构造单向请求，查询打印机列表;
+
+```ts
+export const getPrinterList = async () => {
+  if (!tmpSocket?.connected) {
+    await ConnectSocket(merchantId);
+  }
+  // 查询打印机列表
+  const data = {
+    type: 'getPrinters',
+    mod: 'printer',
+    args: {},
+  };
+  return mySocket.send(data);
+};
+```
+
+断开连接
+
+```ts
+export const disConnect = () => {
+  mySocket.disconnect();
+};
+```
+
+
+

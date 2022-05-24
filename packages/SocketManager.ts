@@ -50,7 +50,6 @@ class SocketManager {
     });
 
     this.socket.on('apiFail', (error: any) => {
-      this.socket.disconnect();
       const reqBody = this.responseMap[error?.reqId]?.data;
       //请求失败
       const { reqId } = error;

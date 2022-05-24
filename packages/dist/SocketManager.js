@@ -53,7 +53,6 @@ var SocketManager = /** @class */ (function () {
         });
         this.socket.on('apiFail', function (error) {
             var _a;
-            _this.socket.disconnect();
             var reqBody = (_a = _this.responseMap[error === null || error === void 0 ? void 0 : error.reqId]) === null || _a === void 0 ? void 0 : _a.data;
             //请求失败
             var reqId = error.reqId;
