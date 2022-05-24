@@ -22,6 +22,7 @@ var SocketManager = /** @class */ (function () {
         var _this = this;
         var reqId = uuid_1.v4();
         var req = new Promise(function (resolve, reject) {
+            //如果你想保存返回的data
             if ((data === null || data === void 0 ? void 0 : data.type) === 'getPrinters') {
                 _this.responseMap[reqId] = { resolve: resolve, reject: reject, data: data };
             }
@@ -35,7 +36,6 @@ var SocketManager = /** @class */ (function () {
     // 监听结果返回
     SocketManager.prototype.listening = function (data) {
         var _this = this;
-        var port = data.port;
         /* 通用：对返回结果的处理*/
         this.socket.on('apiSuccess', function (event) {
             try {

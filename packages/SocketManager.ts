@@ -18,6 +18,7 @@ class SocketManager {
   send(data: any) {
     const reqId = uuid();
     const req = new Promise((resolve, reject) => {
+      //如果你想保存返回的data
       if (data?.type === 'getPrinters') {
         this.responseMap[reqId] = { resolve, reject, data };
       } else {
@@ -33,7 +34,6 @@ class SocketManager {
 
   // 监听结果返回
   listening(data: { port: any }) {
-    const { port } = data;
     /* 通用：对返回结果的处理*/
     this.socket.on('apiSuccess', (event: any) => {
       try {

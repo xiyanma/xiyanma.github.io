@@ -25,11 +25,41 @@ Build site app,
 $ npm run build
 ```
 
-## socket服务调试工具：
+## 依赖的协议
+ 如果你想使用SocketManager管理消息，通信需要遵守以下私有协议，以发消息为例，监听消息同理。
+
+ ### 客户端发消息
+
+ ```ts
+socket.send('api', {
+        // "type": "", 可以自定义哦
+        // "mod": "", 
+        // "args": { }
+    })
+ ```
+
+### 服务端发消息
+表示成功的消息
+
+ ```ts
+io.emit('apiSuccess', {
+  
+})
+ ```
+
+表示失败的消息
+
+ ```ts
+io.emit('apiFail', {
+  
+})
+ ```
+
+## socket服务端调试工具
 
 https://amritb.github.io/socketio-client-tool/#eyJsaXN0ZW4iOlsib2siLCJzb2NrZXRpby1jbGllbnQiLCJtZXNzYWdlIiwiYXBpU3VjY2VzcyIsImFwaUZhaWwiXSwiZW1pdCI6WyJhcGkiLCJhcGkiLCJzb2NrZXRpby1jbGllbnQiLCJzb2NrZXRpby1jbGllbnQtYWNrIl0sImNvbmZpZyI6IntcInBhdGhcIjogXCIvc29ja2V0LmlvXCIsIFwiZm9yY2VOZXdcIjogdHJ1ZSwgXCJyZWNvbm5lY3Rpb25BdHRlbXB0c1wiOiAzLCBcInRpbWVvdXRcIjogMjAwMH0ifQ==
 
-## 使用实例：
+## 客户端使用示例
 
 建立连接
 
@@ -84,7 +114,7 @@ mySocket.send(data).then(()=>{
 .finally()
 ```
 
-### 协议展示：以打印服务为例
+### 业务侧功能示例及协议展示，以打印服务为例
 
 查询打印软件版本
 
