@@ -56,7 +56,7 @@ io.emit('apiFail', {
 })
  ```
 
-## 客户端使用示例
+## 使用示例（客户端）
 
 建立连接
 
@@ -156,3 +156,15 @@ export const disConnect = () => {
 ## socket.io服务端调试工具
 
 https://amritb.github.io/socketio-client-tool/#eyJsaXN0ZW4iOlsib2siLCJzb2NrZXRpby1jbGllbnQiLCJtZXNzYWdlIiwiYXBpU3VjY2VzcyIsImFwaUZhaWwiXSwiZW1pdCI6WyJhcGkiLCJhcGkiLCJzb2NrZXRpby1jbGllbnQiLCJzb2NrZXRpby1jbGllbnQtYWNrIl0sImNvbmZpZyI6IntcInBhdGhcIjogXCIvc29ja2V0LmlvXCIsIFwiZm9yY2VOZXdcIjogdHJ1ZSwgXCJyZWNvbm5lY3Rpb25BdHRlbXB0c1wiOiAzLCBcInRpbWVvdXRcIjogMjAwMH0ifQ==
+
+### 关于贡献代码
+
+1. 先 fork [源仓库](https://github.com/xiyanma/socket-manager)到自己的 github 上
+2. clone 自己的项目后，更新方法、组件
+3. 提交到 github 后提 pr 到[源仓库](https://github.com/xiyanma/socket-manager)
+4. 分配其他人 review 和合代码
+5. 去源仓库`lerna run publish`发布到 npm
+
+#### 测试用例
+
+1. 原则上是逻辑计算类的公共方法都需要写测试用例
