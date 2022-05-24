@@ -12,7 +12,7 @@ var __assign = (this && this.__assign) || function () {
 };
 exports.__esModule = true;
 var uuid_1 = require("uuid");
-var util_1 = require("../packages/util");
+var util_1 = require("./util");
 var SocketManager = /** @class */ (function () {
     function SocketManager(socket) {
         this.responseMap = {};

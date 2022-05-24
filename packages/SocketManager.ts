@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { parseJson } from '../util';
+import { parseJson } from './util';
 
 class SocketManager {
   socket;
