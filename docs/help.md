@@ -1,5 +1,3 @@
-## help
-
 ## 关于贡献代码
 
 1. 先 fork [源仓库](https://github.com/xiyanma/socket-manager)到自己的 github 上
@@ -11,3 +9,7 @@
 ## 测试用例
 
 1. 原则上是逻辑计算类的公共方法都需要写测试用例
+
+## help
+
+I am looking for a good job :)

@@ -1,12 +1,10 @@
 ---
 nav:
-  title: Getting Started
+  title: 快速上手
   order: 1
 ---
 
-# Getting Started
-
-## 开始使用
+## 快速上手
 
 Install dependencies & lerna bootstrap
 
