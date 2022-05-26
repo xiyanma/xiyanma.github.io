@@ -6,16 +6,20 @@
 /yarn-error.log
 /yarn.lock
 /package-lock.json
+node_modules
 
 # production
-/dist
+/es
+/docs-dist
 
 # misc
 .DS_Store
+/coverage
 
 # umi
 .umi
 .umi-production
+.umi-test
 .env.local
 
 # ide

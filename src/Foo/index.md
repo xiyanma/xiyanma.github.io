@@ -1,16 +1,10 @@
----
-nav:
-  title: Components
-  path: /components
----
-
 ## Foo
 
 Demo:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'socket-manager';
+import { Foo } from 'socket-manager.github.io';
 
 export default () => <Foo title="First Demo" />;
 ```

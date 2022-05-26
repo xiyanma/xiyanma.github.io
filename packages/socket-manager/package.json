@@ -1,0 +1,16 @@
+{
+  "version": "0.0.1",
+  "name": "socket-manager",
+  "scripts": {
+    "test": "jest",
+    "build": "father build"
+  },
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "devDependencies": {
+    "@types/uuid": "^8.3.0",
+    "father-build": "1.20.4",
+    "socket.io-client": "^4.4.0"
+  },
+  "gitHead": "e5e127d626a4839d6cfbca7b51c9f217f48f0322"
+}

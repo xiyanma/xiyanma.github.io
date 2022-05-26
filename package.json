@@ -1,14 +1,23 @@
 {
   "private": true,
-  "name": "socket-manager",
+  "name": "socket-manager.github.io",
+  "version": "1.0.0",
   "scripts": {
+    "begin": "find . -maxdepth 3 -name node_modules -type d -exec rm -rf {} + && npm install && lerna bootstrap && npm run build && npm run start",
+
     "start": "dumi dev",
-    "build": "dumi build",
-    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\""
+    "docs:build": "dumi build",
+    "docs:deploy": "gh-pages -d docs-dist",
+    "clean": "lerna clean --yes",
+    "build": "father-build",
+    "deploy": "npm run docs:build && npm run docs:deploy",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage",
+    "prepublishOnly": "npm run build"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "module": "es/index.js",
+  "typings": "es/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
@@ -20,12 +29,21 @@
       "prettier --parser=typescript --write"
     ]
   },
+  "dependencies": {
+    "react": "^16.12.0 || ^17.0.0"
+  },
   "devDependencies": {
-    "dumi": "^1.0.13",
+    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/react": "^12.1.2",
+    "@types/jest": "^27.0.3",
+    "@umijs/fabric": "^2.8.1",
+    "@umijs/test": "^3.0.5",
+    "dumi": "^1.1.0",
+    "father-build": "^1.17.2",
+    "gh-pages": "^3.0.0",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.1",
-    "yorkie": "^2.0.0",
-    "@types/uuid": "^8.3.0",
-    "socket.io-client": "^4.4.0"
+    "lerna": "^4.0.0",
+    "yorkie": "^2.0.0"
   }
 }
