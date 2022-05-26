@@ -13,7 +13,12 @@ nav:
 ```js
 SocketConnect.init()
   .then((_socket) => {
-    this.socket = _socket;
+    port = _socket.$$port;
+    mySocket = new SocketManager(_socket);
+
+    mySocket.listening({
+      port,
+    });
 
     this.setState(
       {
@@ -104,6 +109,6 @@ export const disConnect = () => {
 };
 ```
 
-## socket.io 服务端调试工具
+## socket.io 调试工具
 
 https://amritb.github.io/socketio-client-tool/#eyJsaXN0ZW4iOlsib2siLCJzb2NrZXRpby1jbGllbnQiLCJtZXNzYWdlIiwiYXBpU3VjY2VzcyIsImFwaUZhaWwiXSwiZW1pdCI6WyJhcGkiLCJhcGkiLCJzb2NrZXRpby1jbGllbnQiLCJzb2NrZXRpby1jbGllbnQtYWNrIl0sImNvbmZpZyI6IntcInBhdGhcIjogXCIvc29ja2V0LmlvXCIsIFwiZm9yY2VOZXdcIjogdHJ1ZSwgXCJyZWNvbm5lY3Rpb25BdHRlbXB0c1wiOiAzLCBcInRpbWVvdXRcIjogMjAwMH0ifQ==

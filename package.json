@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "socket-manager.github.io",
+  "name": "socket-manager",
   "version": "1.0.0",
   "scripts": {
     "begin": "find . -maxdepth 3 -name node_modules -type d -exec rm -rf {} + && npm install && lerna bootstrap && npm run build && npm run start",
@@ -16,8 +16,8 @@
     "test:coverage": "umi-test --coverage",
     "prepublishOnly": "npm run build"
   },
-  "module": "es/index.js",
-  "typings": "es/index.d.ts",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },

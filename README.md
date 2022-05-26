@@ -24,6 +24,8 @@ Hello socket-manager!
 
 解决了 WebSocket 并发消息时响应结果难以追踪的问题。
 
+兼容 Socket.io 和 WebSocket 两种连接模式。
+
 可以在 Socket 通信业务代码中方便地使用。
 
 ## 设计思想
