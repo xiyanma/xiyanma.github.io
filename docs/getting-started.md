@@ -31,6 +31,23 @@ $ npm run build
 npm run deploy
 ```
 
+## 如何在项目中安装、使用
+
+```js
+// 在项目中安装依赖
+npm i xiyanma-socket-manager
+npm i xiyan-socket-connect
+// 在项目中使用
+import SocketManager from 'xiyanma-socket-manager'
+mySocket = new SocketManager(tmpSocket);
+```
+
+如何在 Apackage 中使用 Bpackage 进行本地开发
+
+```js
+lerna add b --scope a
+```
+
 ## 依赖的协议
 
 如果你想使用 SocketManager 管理消息，通信需要遵守以下私有协议，以发消息为例，监听消息同理。

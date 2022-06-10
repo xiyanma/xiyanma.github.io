@@ -59,6 +59,23 @@ $ npm run build
 npm run deploy
 ```
 
+## 如何在项目中安装、使用
+
+```js
+// 在项目中安装依赖
+npm i xiyanma-socket-manager
+npm i xiyan-socket-connect
+// 在项目中使用
+import SocketManager from 'xiyanma-socket-manager'
+mySocket = new SocketManager(tmpSocket);
+```
+
+如何在 Apackage 中使用 Bpackage 进行本地开发
+
+```js
+lerna add b --scope a
+```
+
 ## 依赖的协议
 
 如果你想使用 SocketManager 管理消息，通信需要遵守以下私有协议，以发消息为例，监听消息同理。
@@ -118,7 +135,7 @@ SocketConnect.init()
 挂载实例，管理 Socket 消息
 
 ```ts
-import SocketManager from './SocketManager';
+import SocketManager from 'xiyanma-socket-manager';
 let mySocket: SocketManager;
 tmpSocket = io(`http://localhost:${port}`, {
   path: '/socket.io',
@@ -202,6 +219,29 @@ https://amritb.github.io/socketio-client-tool/#eyJsaXN0ZW4iOlsib2siLCJzb2NrZXRpb
 ## 测试用例
 
 1. 原则上是逻辑计算类的公共方法都需要写测试用例
+
+## 修改 components 和提交注意事项
+
+修改通用方法时，不能影响已有代码功能逻辑，提交代码后最好是提 PR 让其他同事 CR 一下
+
+## 发版注意事项
+
+通常来说，发版只需要发某个 package，发版使用 np 来规范流程
+
+## 规范说明
+
+## 文档贡献说明
+
+可以设置检索目录，通常文档放在 docs 下，以 docs 为例
+
+1. 如果不在`config/menus/index.ts`中显示的声明路由，则会以 docs 为根路径('/')，以文件夹结构作为默认 path
+2. 如何快速添加 Navs(页面右上角导航按钮)，`config/config.ts/navs`
+3. [其他参考](https://d.umijs.org/zh-CN/config)
+
+## lerna 相关
+
+1. [命令文档](http://www.febeacon.com/lerna-docs-zh-cn/routes/basic/about.html)
+2. [谁在使用](https://www.lernajs.cn/#users)
 
 ## help
 
