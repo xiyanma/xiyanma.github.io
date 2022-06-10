@@ -1,6 +1,6 @@
 {
-  "version": "0.0.1",
-  "name": "socket-manager",
+  "version": "1.0.0",
+  "name": "xiyanma-socket-manager",
   "scripts": {
     "test": "jest",
     "build": "father build"
