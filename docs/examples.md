@@ -1,7 +1,7 @@
 ---
 nav:
   title: 使用示例
-  order: 4
+  order: 2
 ---
 
 ## 使用示例
