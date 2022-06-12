@@ -30,4 +30,22 @@ export default defineConfig({
     type: 'none',
     exclude: [],
   },
+  navs: [
+    {
+      title: '快速上手',
+      path: '/getting-started',
+    },
+    {
+      title: '使用示例',
+      path: '/examples',
+    },
+    {
+      title: '贡献',
+      path: '/contribute',
+    },
+    {
+      title: 'git',
+      path: 'https://github.com/xiyanma/xiyanma.github.io',
+    },
+  ],
 });

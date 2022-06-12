@@ -11,7 +11,7 @@ lib
 
 # production
 /es
-/docs-dist
+# docs-dist
 
 # misc
 .DS_Store
