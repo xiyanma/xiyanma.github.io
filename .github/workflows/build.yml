@@ -12,8 +12,8 @@ jobs:
       - name: Checkout Master
         uses: actions/checkout@v1
 
-      - name: npm run begin
-        run: npm run begin
+      - name: npm install
+        run: npm install && lerna bootstrap
 
       - name: npm run deploy
         run: npm run deploy
