@@ -6,16 +6,14 @@ on:
 jobs:
   hello-actions:
     runs-on: ubuntu-18.04
-    name: 打包并发布文档
+    name: deploy
     steps:
       # 每一个不走步骤跟随一个 name ，还有一些其他的参数。
       - name: Checkout Master
         uses: actions/checkout@v1
 
-      - name:安装依赖
+      - name: npm run begin
         run: npm run begin
 
-      - name: 部署文档
+      - name: npm run deploy
         run: npm run deploy
-
-
