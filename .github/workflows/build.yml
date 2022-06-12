@@ -16,9 +16,9 @@ jobs:
         run: npm i --legacy-peer-deps
           npm i dumi
 
+      - name: set username
+        run: git config --global user.email 2577014618@qq.com
+          git config --global user.name xiyanma
+
       - name: npm run deploy
         run: npm run deploy
-
-      - name: set username
-        run: git config --global user.email "2577014618@qq.com"
-          git config --global user.name "xiyanma"
