@@ -6,14 +6,19 @@ on:
 jobs:
   hello-actions:
     runs-on: ubuntu-18.04
-    name: deploy
+    name: 发布文档
     steps:
       # 每一个不走步骤跟随一个 name ，还有一些其他的参数。
       - name: Checkout Master
         uses: actions/checkout@v1
 
-      - name: npm install
-        run: npm i --legacy-peer-deps && npm i dumi
+      - name: npm i dumi
+        run: npm i --legacy-peer-deps
+          npm i dumi
 
       - name: npm run deploy
         run: npm run deploy
+
+      - name: set username
+        run: git config --global user.email "2577014618@qq.com"
+          git config --global user.name "xiyanma"
