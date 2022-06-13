@@ -17,7 +17,7 @@ jobs:
           npm i dumi
 
       - name: set username
-        run: git config user.email 2577014618@qq.com
+        run: git config user.email 2577014618@qq.com &&
           git config user.name xiyanma
 
       - name: npm run deploy
