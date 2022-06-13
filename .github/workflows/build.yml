@@ -10,7 +10,7 @@ jobs:
     steps:
       # 每一个步骤跟随一个 name ，还有一些其他的参数。
       - name: Checkout Master
-        uses: actions/checkout@v1
+        # uses: actions/checkout@v1
 
       - name: npm i dumi
         run: npm i --legacy-peer-deps
@@ -22,4 +22,5 @@ jobs:
 
       - name: npm run docs:build
         run: npm run docs:build
+          npm run docs:deploy
 # npm run docs:build && npm run docs:deploy
