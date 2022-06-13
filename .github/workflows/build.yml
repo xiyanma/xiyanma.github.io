@@ -20,5 +20,6 @@ jobs:
       #   run: git config  --global  user.email 2577014618@qq.com &&
       #     git config  --global user.name xiyanma
 
-      - name: npm run deploy
-        run: npm run deploy
+      - name: npm run docs:build
+        run: npm run docs:build
+# npm run docs:build && npm run docs:deploy
