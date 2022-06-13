@@ -9,8 +9,8 @@ jobs:
     name: 发布文档
     steps:
       # 每一个步骤跟随一个 name ，还有一些其他的参数。
-      - name: Checkout Master
-        # uses: actions/checkout@v1
+      # - name: Checkout Master
+      #   uses: actions/checkout@v1
 
       - name: npm i dumi
         run: npm i --legacy-peer-deps
