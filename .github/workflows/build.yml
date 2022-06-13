@@ -19,7 +19,6 @@ jobs:
       - name: set username
         run: git config  --global  user.email 2577014618@qq.com &&
           git config  --global user.name xiyanma
-git config --global user.password 134520mxy
 
       - name: npm run deploy
         run: npm run deploy
