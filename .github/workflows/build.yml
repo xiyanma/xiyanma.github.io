@@ -18,7 +18,7 @@ jobs:
 
       - name: set username
         run: git config user.email 2577014618@qq.com &&
-          git config user.name xiyan
+          git config user.name xiyanma
 
       - name: npm run deploy
         run: npm run deploy
