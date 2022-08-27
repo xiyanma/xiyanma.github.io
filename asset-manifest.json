@@ -1,12 +1,11 @@
 {
-  "vendors~docs__contribute.md~docs__examples.md~docs__getting-started.md~docs__index.md~docs__index.zh~1461ee5d.js": "/vendors~docs__contribute.md~docs__examples.md~docs__getting-started.md~docs__index.md~docs__index.zh~1461ee5d.js",
+  "vendors~docs__contribute.md~docs__examples.md~docs__getting-started.md~docs__index.md~dumi_demos~wrappers.js": "/vendors~docs__contribute.md~docs__examples.md~docs__getting-started.md~docs__index.md~dumi_demos~wrappers.js",
   "vendors~docs__examples.md~docs__getting-started.md~dumi_demos.css": "/vendors~docs__examples.md~docs__getting-started.md~dumi_demos.chunk.css",
   "vendors~docs__examples.md~docs__getting-started.md~dumi_demos.js": "/vendors~docs__examples.md~docs__getting-started.md~dumi_demos.js",
   "docs__contribute.md.js": "/docs__contribute.md.js",
   "docs__examples.md.js": "/docs__examples.md.js",
   "docs__getting-started.md.js": "/docs__getting-started.md.js",
   "docs__index.md.js": "/docs__index.md.js",
-  "docs__index.zh-CN.md.js": "/docs__index.zh-CN.md.js",
   "dumi_demos.js": "/dumi_demos.js",
   "umi.js": "/umi.js",
   "vendors~dumi_demos.css": "/vendors~dumi_demos.chunk.css",
@@ -20,9 +19,5 @@
   "examples/index.html": "/examples/index.html",
   "getting-started/index.html": "/getting-started/index.html",
   "index.html": "/index.html",
-  "zh-CN/contribute/index.html": "/zh-CN/contribute/index.html",
-  "zh-CN/examples/index.html": "/zh-CN/examples/index.html",
-  "zh-CN/getting-started/index.html": "/zh-CN/getting-started/index.html",
-  "zh-CN/index.html": "/zh-CN/index.html",
   "~demos/:uuid/index.html": "/~demos/:uuid/index.html"
 }
