@@ -1,46 +1,72 @@
-import io from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
 
-let SocketManager: any;
+interface GenericSocket {
+  on: (...args: any[]) => void;
+  emit: (...args: any[]) => void;
+  close: () => void;
+  $$port?: number;
+  isWSS?: boolean;
+}
+
+// 最大重试次数
+const RETRY_COUNT = 10; 
+const ERROR_CODE = {
+  // 超过最大重试次数
+  OVER_RETRY_MAX: -10000, 
+};
+const SOCKETIO_START_PORT = 1212;
+const WEBSOCKET_START_PORT = 1212;
+
+type SocketFactory = (
+  createSocketFn: (
+    targetPort: number,
+    onConnect: () => void,
+    onConnectError: (message: string) => void
+  ) => GenericSocket,
+  startPort: number,
+  maxRetry?: number
+) => Promise<GenericSocket>;
+
+let SocketManager: {
+  init: () => Promise<GenericSocket>;
+  _initSocket: () => Promise<GenericSocket>;
+  $$port?: number;
+  emit?: (name: string, data: any) => void;
+  on?: (name: string, cb: (data: any) => void) => void;
+  close?: () => void;
+  isWSS?: boolean;
+  connectSccuessed?: boolean;
+};
 
 (() => {
-  // socket.io 的初始化
-  const RETRY_COUNT = 10; // 最大重试次数
-  const ERROR_CODE = {
-    OVER_RETRY_MAX: -10000, // 超过最大重试次数
-  };
-  const SOCKETIO_START_PORT = 1212;
-  const WEBSOCKET_START_PORT = 1212;
-
-  const socketFactory = (
-    createSocketFn: any,
-    startPort: any,
-    maxRetry = 20,
+  const socketFactory: SocketFactory = (
+    createSocketFn,
+    startPort,
+    maxRetry = RETRY_COUNT
   ) => {
-    let CONNECTED_INSTANCE: any; // 已连接的实例
+    let CONNECTED_INSTANCE: GenericSocket | null = null;
 
-    const socketInit: any = (reTryCount = 0) => {
-      const createSocket = () => {
+    const socketInit = (reTryCount = 0): Promise<GenericSocket> => {
+      const createSocket = (): Promise<GenericSocket> => {
         if (reTryCount > maxRetry)
           return Promise.reject(ERROR_CODE.OVER_RETRY_MAX);
 
         return new Promise((resolve, reject) => {
           const targetPort = startPort + reTryCount;
           console.log(
-            `====> 尝试连接socket start by [${startPort}]: ${targetPort}`,
+            `====> 尝试连接socket start by [${startPort}]: ${targetPort}`
           );
 
           const socket = createSocketFn(
             targetPort,
             () => {
-              socket.$$port = targetPort;
+              socket['$$port'] = targetPort;
               CONNECTED_INSTANCE = socket;
               resolve(socket);
             },
-            (message: any) => {
-              // typeof socket.close === 'function' && socket.close();
-
+            (message: string) => {
               reject(message);
-            },
+            }
           );
         });
       };
@@ -56,31 +82,31 @@ let SocketManager: any;
       });
     };
 
-    return socketInit;
+    return socketInit();
   };
 
   const socketIOInit = () => {
     const createSocketFn = (
-      targetPort: any,
-      onConnect: any,
-      onConnectError: any,
-    ) => {
-      const socket = io(`http://localhost:${targetPort}`, {
+      targetPort: number,
+      onConnect: () => void,
+      onConnectError: (message: string) => void
+    ): GenericSocket => {
+      const socket: Socket = io(`http://localhost:${targetPort}`, {
         path: '/socket.io',
         forceNew: true,
         reconnectionAttempts: 0,
         timeout: 2000,
-      });
+      }) as GenericSocket;
 
-      socket.io.on(
-        'error',
+      socket.on(
+        'connect_error',
         ({
           // type,
           message,
         }) => {
           socket.close();
           onConnectError(message);
-        },
+        }
       );
 
       socket.on('connect', () => {
@@ -90,15 +116,15 @@ let SocketManager: any;
       return socket;
     };
 
-    return socketFactory(createSocketFn, SOCKETIO_START_PORT, RETRY_COUNT)();
+    return socketFactory(createSocketFn, SOCKETIO_START_PORT, RETRY_COUNT);
   };
 
   const websocketInit = () => {
     const createSocketFn = (
-      targetPort: any,
-      onConnect: any,
-      onConnectError: any,
-    ) => {
+      targetPort: number,
+      onConnect: () => void,
+      onConnectError: (message: string) => void
+    ): GenericSocket => {
       const socket = new WebSocket(`ws://127.0.0.1:${targetPort}`);
 
       let isTimeout = false;
@@ -116,16 +142,16 @@ let SocketManager: any;
         onConnect();
       };
 
-      socket.onerror = (e: any = {}) => {
+      socket.onerror = (e: Event) => {
         clearTimeout(tt);
 
-        onConnectError(e.message || e);
+        onConnectError(e.toString());
       };
 
       return socket;
     };
 
-    return socketFactory(createSocketFn, WEBSOCKET_START_PORT, RETRY_COUNT)();
+    return socketFactory(createSocketFn, WEBSOCKET_START_PORT, RETRY_COUNT);
   };
 
   // 对外的统一模块
@@ -133,25 +159,25 @@ let SocketManager: any;
     init() {
       console.log('====> SocketManager initing...');
       return this._initSocket()
-        .then((res: any) => {
+        .then((res) => {
           console.log('====> SocketManager inited!');
           return res;
         })
-        .catch((e: any) => {
+        .catch((e) => {
           console.error('====> SocketManager failed!');
 
           return Promise.reject(e);
         });
     },
     _initSocket() {
-      // socketIOInit()
-      const connectSccuess = (socket: any, resolve: any) => {
-        if (this.connectSccuessed) return; // 已经成功则勿略
+      const connectSuccess = (socket: GenericSocket, resolve: (value: GenericSocket) => void) => {
+        // 已经成功则勿略
+        if (this.connectSccuessed) return; 
 
         console.log(
-          `====> connect ${
-            socket.isWSS ? 'websocket' : 'socketIO'
-          } sccuessed [${socket.$$port}]`,
+          `====> connect ${socket.isWSS ? 'websocket' : 'socketIO'} sccuessed [${
+            socket.$$port
+          }]`
         );
 
         this.connectSccuessed = true;
@@ -159,27 +185,27 @@ let SocketManager: any;
         resolve(socket);
       };
 
-      return new Promise((resolve, reject) => {
+      return new Promise<GenericSocket>((resolve, reject) => {
         let ioRetryEnd = false;
         let webRetryEnd = false;
 
-        const checkReTryEnd = () => {
+        const checkRetryEnd = () => {
           if (ioRetryEnd && webRetryEnd) {
             reject();
           }
         };
 
-        // 启动 socketIO
         socketIOInit()
-          .then((socket: any) => {
+          .then((socket) => {
+            const socketIO = socket as Socket;
             this.$$port = socket.$$port;
 
-            this.emit = (name: any, data: any) => {
-              socket.emit(name, data);
+            this.emit = (name: string, data: any) => {
+              socketIO.emit(name, data);
             };
 
-            this.on = (name: any, cb: any) => {
-              socket.on(name, (data: any) => {
+            this.on = (name: string, cb: (data: any) => void) => {
+              socketIO.on(name, (data: any) => {
                 try {
                   data.data = JSON.parse(data.data);
                 } catch (error) {}
@@ -189,34 +215,33 @@ let SocketManager: any;
             };
 
             this.close = () => {
-              socket.close();
+              socketIO.close();
             };
 
-            connectSccuess(this, resolve);
+            connectSuccess(this, resolve);
           })
-          .catch((e: any) => {
+          .catch((e) => {
             console.error('socketIOInit error', e);
 
             if (e === ERROR_CODE.OVER_RETRY_MAX) {
               ioRetryEnd = true;
-              checkReTryEnd();
+              checkRetryEnd();
             }
           });
 
-        // 启动 websocket
         websocketInit()
-          .then((socket: any) => {
+          .then((socket) => {
             this.$$port = socket.$$port;
 
-            const listeners: any = [];
+            const listeners: { name: string; cb: (data: any) => void }[] = [];
             socket.onmessage = (message: any) => {
               const {
-                event, // : 'apiSuccess',
+                event,
                 ...data
               } = JSON.parse(message.data);
 
               const matchListeners = listeners.filter(
-                (a: any) => a.name === event,
+                (a: any) => a.name === event
               );
 
               matchListeners.forEach((l: any) => {
@@ -224,17 +249,16 @@ let SocketManager: any;
               });
             };
 
-            this.emit = (name: any, data = {}) => {
-              // data = typeof data === 'object' ? JSON.stringify(data) : data;
+            this.emit = (name: string, data: any = {}) => {
               socket.send(
                 JSON.stringify({
                   event: name,
                   ...data,
-                }),
+                })
               );
             };
 
-            this.on = (name: any, cb: any) => {
+            this.on = (name: string, cb: (data: any) => void) => {
               listeners.push({
                 name,
                 cb,
@@ -247,26 +271,19 @@ let SocketManager: any;
 
             this.isWSS = true;
 
-            connectSccuess(this, resolve);
+            connectSuccess(this, resolve);
           })
-          .catch((e: any) => {
+          .catch((e) => {
             console.error('websocketInit error', e);
 
             if (e === ERROR_CODE.OVER_RETRY_MAX) {
               webRetryEnd = true;
-              checkReTryEnd();
+              checkRetryEnd();
             }
           });
       });
     },
-    // send(...args) {
-
-    // },
-    // on(...args) {
-
-    // },
   };
 })();
 
-// window.SocketManager = SocketManager;
 export default SocketManager;
