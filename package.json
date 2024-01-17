@@ -33,7 +33,7 @@
     "@babel/preset-env": "^7.18.0",
     "@babel/preset-typescript": "^7.17.12",
     "@testing-library/jest-dom": "^5.15.1",
-    "@testing-library/react": "^12.1.2",
+    "@testing-library/react": "^13.0.0",
     "@types/jest": "^27.0.3",
     "@types/uuid": "^8.3.4",
     "@umijs/fabric": "^2.10.2",
@@ -50,7 +50,12 @@
     "lerna": "^4.0.0",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
-    "react": "^16.12.0",
+    "react": "^18.0.0",
     "yorkie": "^2.0.0"
+  },
+  "dependencies": {
+    "react-router": ">=5.0.0",
+    "typescript": ">= 3.x",
+    "webpack": "*"
   }
 }
